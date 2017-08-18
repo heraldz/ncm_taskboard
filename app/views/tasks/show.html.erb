@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sprint Number:</b>
+  <%= @task.sprint_number unless @task.sprint_number.nil? %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @task.title unless @task.title.nil? %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @task.description %>
+</p>
+
+<p>
+	<b>Task Owner:</b>
+	<%= @task.owner.name %>
+</p>
+
+<p>
+	<b>Requested By:</b>
+	<%= @task.requestor.name %>
+</p>
+
+<p>
+	<b>Application:</b>
+	<%= @task.project.name %>
+</p>
+
+<p>
+  <b>Estimate:</b>
+  <%= @task.estimate unless @task.estimate.nil?%> hours
+</p>
+
+<p>
+	<b>Status:</b>
+	<% if @task.status == 1 %>
+	  Created
+	<% elsif @task.status == 2 %>
+	  WIP
+	<% elsif @task.status == 3 %>
+	  Completed
+	<% elsif @task.status == 4 %>
+	  Pushed/Tested
+	<% elsif @task.status == 5 %>
+	  Deployed
+	<% else %>
+	  Archived
+	<% end %>            
+</p>
+
+<p>
+	<b>created at:</b>
+	<%= @task.created_at.strftime("%d %B, %I:%M%p,%a") unless @task.created_at.nil? %>
+</p>
+
+<p>
+	<b>WIP started at:</b>
+	<%= @task.wip_started_date.strftime("%d %B, %I:%M%p,%a") unless @task.wip_started_date.nil? %>
+</p>
+
+<p>
+	<b>Completed at:</b>
+	<%= @task.completed_at.strftime("%d %B, %I:%M%p,%a") unless @task.completed_at.nil? %>
+</p>
+
+<p>
+	<b>Pushed/Tested at:</b>
+	<%= @task.tested_at.strftime("%d %B, %I:%M%p,%a") unless @task.tested_at.nil? %>
+</p>
+
+<p>
+	<b>Deployed at:</b>
+	<%= @task.deployed_at.strftime("%d %B, %I:%M%p,%a") unless @task.deployed_at.nil? %>
+</p>
+
+
+
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

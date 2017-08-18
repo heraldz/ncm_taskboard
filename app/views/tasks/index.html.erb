@@ -1,0 +1,158 @@
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+<script src="jquery.ui.touch-punch.min.js"></script>
+
+<%= image_tag("ncm_logo.jpg", :style => "width: 44px; margin-top: 10px;") %>
+<div style="position: absolute; margin-top: -70px; margin-left: 107px;"><h2>NCM Manila</h2></div>
+<div style="position: absolute; margin-top: -28px; margin-left: 109px;"><h4>Web Developers</h4></div>
+<div style="position: absolute; margin-top: -48px; margin-left: 50px;">
+<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple117/v4/a6/d2/2c/a6d22ca4-5b4d-a1de-03ac-6a67a81b07fe/source/512x512bb.jpg" style="width:51px;height:51px;">
+</div>
+<br/><br/>
+<h4 style="margin-left: 5px;">Sprint: <%= @current_sprint %></h4>
+<div id="divTasks" style="margin-left: 20px;">
+  <div class="center">
+    <table class="table table-striped table-hover ">
+      <tbody>
+        <tr>
+          <th style="width: 250px;">Stories (<%= @readytasks.count %>)</th>
+          <th style="width: 250px;">WIP (<%= @progresstasks.count %>/<%= User.all.length * 2 %>)</th>
+          <th style="width: 250px;">Completed (<%= @completedtasks.count %>/<%= Task.current.count - (@deployedtasks.count + @testedtasks.count) %>)</th>
+          <th style="width: 250px;">Pushed/Tested (<%= @testedtasks.count %>/<%= Task.current.count - @deployedtasks.count %>)</th>
+          <th style="width: 250px;">Deployed (<%= @deployedtasks.count %>/<%= Task.current.count %>)</th>
+        </tr>
+	  </tbody>	
+	  <tbody>	
+        <tr style="width: 200px; text-align:center;">
+          <td id="colRdy" class="colRdy">
+            
+            <% @readytasks.each do |task| %>
+			  <% if task.urgent == true %>
+			    <div class="dragme" id="<%=task.id%>" style="background-color: #F45F49">
+			  <% else %>		
+                <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
+			  <% end %>
+			  <% if task.sprint_number < Task.last.sprint_number %>
+			    <b><%= task.sprint_number %></b>
+			  <% end %>		
+				<div style="font-size: 10px;">
+				  <%= link_to task_path(task) do %>	  
+			        <%= task.owner.name %>/<%= task.estimate %> hrs./Req: <%= task.requestor.name %>
+				  <% end %>	
+				</div>  
+				<br/>
+                <%= task.project.name %> - <%= task.title %>
+				<br/><br/>
+				<%= link_to "Edit", edit_task_path(task) %>
+              </div>
+            <%end%>
+            
+          </td>
+          <td id="colProg" class="colProg">
+            <% @progresstasks.each do |task| %>
+			  <% if task.urgent == true %>
+			    <div class="dragme" id="<%=task.id%>" style="background-color: #F45F49">
+			  <% else %>		
+                <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
+			  <% end %>
+			  <% if task.sprint_number < Task.last.sprint_number %>
+			    <b><%= task.sprint_number %></b>
+			  <% end %>		 
+				<div style="font-size: 10px;">
+				  <%= link_to task_path(task) do %>	  
+			        <%= task.owner.name %>/<%= task.estimate %> hrs./Req: <%= task.requestor.name %>
+				  <% end %>	
+				  <br/>
+				  <%= task.wip_started_date.strftime("%d %B, %I:%M%p,%a") %>
+			    </div>	
+				<br/>  
+                <%= task.project.name %> - <%= task.title %>
+				<br/><br/>
+				<%= link_to "Edit", edit_task_path(task) %>
+              </div>
+            <%end%>
+          </td>
+          <td id="colCompl" class="colCompl">
+            <% @completedtasks.each do |task| %>
+			  <% if task.urgent == true %>
+			    <div class="dragme" id="<%=task.id%>" style="background-color: #F45F49">
+			  <% else %>		
+                <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
+			  <% end %>
+			  <% if task.sprint_number < Task.last.sprint_number %>
+			    <b><%= task.sprint_number %></b>
+			  <% end %>		 
+				<div style="font-size: 10px;">  
+			      <%= link_to task_path(task) do %><%= task.owner.name %>/<%= task.estimate %> hrs./Req: <%= task.requestor.name %>
+				  <% end %>
+				  <br/>
+				  <%= task.wip_started_date.strftime("%d %B, %I:%M%p,%a") unless task.wip_started_date.nil? %>
+				  <br/>  
+				  <%= task.completed_at.strftime("%d %B, %I:%M%p,%a") %>
+				</div>
+				<br/>	  
+                <%= task.project.name %> - <%= task.title %>
+				<br/><br/>
+				<%= link_to "Edit", edit_task_path(task) %>
+              </div>
+            <%end%>
+          </td>
+          <td id="colTest" class="colTest">
+            <% @testedtasks.each do |task| %>
+			  <% if task.urgent == true %>
+			    <div class="dragme" id="<%=task.id%>" style="background-color: #F45F49">
+			  <% else %>		
+                <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
+			  <% end %>
+			  <% if task.sprint_number < Task.last.sprint_number %>
+			    <b><%= task.sprint_number %></b>
+			  <% end %>		 
+			    <div style="font-size: 10px;">
+				  <%= link_to task_path(task) do %>	
+				    <%= task.owner.name %>/<%= task.estimate %> hrs./Req: <%= task.requestor.name %>
+				  <% end %>
+				  <br/>
+				  <%= task.wip_started_date.strftime("%d %B, %I:%M%p,%a") unless task.wip_started_date.nil? %>
+				  <br/>
+				  <%= task.tested_at.strftime("%d %B, %I:%M%p,%a") %>
+			    </div>
+				<br/>	  
+                <%= task.project.name %> - <%= task.title %>
+				<br/><br/>
+				<%= link_to "Edit", edit_task_path(task) %>
+              </div>
+            <%end%>
+          </td>
+          <td id="colDepl" class="colDepl">
+            <% @deployedtasks.each do |task| %>
+			  <% if task.urgent == true %>
+			    <div class="dragme" id="<%=task.id%>" style="background-color: #F45F49">
+			  <% else %>		
+                <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
+			  <% end %>
+			  <% if task.sprint_number < Task.last.sprint_number %>
+			    <b><%= task.sprint_number %></b>
+			  <% end %>
+			  <div style="font-size: 10px;">
+				<%= link_to task_path(task) do %>  		 
+			      <%= task.owner.name %>/<%= task.estimate %> hrs./Req: <%= task.requestor.name %>
+				<% end %>  
+				  <br/>
+				<%= task.wip_started_date.strftime("%d %B, %I:%M%p,%a") unless task.wip_started_date.nil? %>
+				<br/>
+				<%= task.deployed_at.strftime("%d %B, %I:%M%p,%a") %>
+				<br/>
+			  </div>
+			    <br/>		  
+                <%= task.project.name %> - <%= task.title %>
+				<br/><br/>
+				<%= link_to "Archive", archived_task_path(task) %>
+              </div>
+            <%end%>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
