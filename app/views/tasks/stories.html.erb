@@ -1,0 +1,44 @@
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+<script src="jquery.ui.touch-punch.min.js"></script>
+
+<%= image_tag("ncm_logo.jpg", :style => "width: 44px; margin-top: 10px;") %>
+<div style="position: absolute; margin-top: -70px; margin-left: 107px;"><h2>NCM Manila</h2></div>
+<div style="position: absolute; margin-top: -28px; margin-left: 109px;"><h4>Web Developers</h4></div>
+<div style="position: absolute; margin-top: -48px; margin-left: 50px;">
+<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple117/v4/a6/d2/2c/a6d22ca4-5b4d-a1de-03ac-6a67a81b07fe/source/512x512bb.jpg" style="width:51px;height:51px;">
+</div>
+<br/><br/>
+<h2>&nbsp;Listing Stories</h2>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th>Title</th>
+		<th>Description</th>
+		<th>Project</th>
+		<th>Requested By</th>
+		<th>Estimate</th>
+		<th>Owner</th>
+		<th>Generate</th>
+	  </tr>  
+      <tbody>
+	    <% @tasks.each do |task| %> 	  
+          <tr>
+		    <td><%= task.title %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name %></td>
+			<td><%= task.requestor.name %></td>
+			<%= form_tag generate_sprint_number_task_path(task), multipart: true do %>
+			  <% hours = task.estimate.blank? ? '0' : task.estimate %>
+			  <td><%= text_field 'estimate', 'estimate_a', :size => 5, :value => hours %></td>
+			  <td><%= select('person','person_id',User.all.collect{|c| [c.name, c.id] }, :selected => task.person_id) %></td>
+			  <td><%= submit_tag "Go" %></td>
+			<% end %>  		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>
