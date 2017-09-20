@@ -2,16 +2,16 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
-    @readytasks = Task.where(:status => 1).where('archived = 0 OR archived IS NULL')
-    @progresstasks = Task.where(:status => 2).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @completedtasks = Task.where(:status => 3).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @testedtasks = Task.where(:status => 4).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @deployedtasks = Task.where(:status => 5).where('archived = 0 OR archived IS NULL').order(:updated_at)
+    @tasks = Task.where('sprint_number IS NOT NULL')
+    @readytasks = @tasks.where(:status => 1).where('archived = 0 OR archived IS NULL')
+    @progresstasks = @tasks.where(:status => 2).where('archived = 0 OR archived IS NULL').order(:updated_at)
+    @completedtasks = @tasks.where(:status => 3).where('archived = 0 OR archived IS NULL').order(:updated_at)
+    @testedtasks = @tasks.where(:status => 4).where('archived = 0 OR archived IS NULL').order(:updated_at)
+    @deployedtasks = @tasks.where(:status => 5).where('archived = 0 OR archived IS NULL').order(:updated_at)
     if Task.last.nil?
       @current_sprint = Time.now.strftime("%U%Y").to_i
     else  
-      @current_sprint = Task.last.sprint_number
+      @current_sprint = @tasks.last.sprint_number
     end  
 
     respond_to do |format|
@@ -54,8 +54,8 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, :notice => 'Task was successfully created.' }
-        format.json { render :json => @task, :status => :created, :location => @task }
+        format.html { redirect_to stories_tasks_path, :notice => 'Task was successfully created.' }
+        #format.json { render :json => @task, :status => :created, :location => @task }
       else
         format.html { render :action => "new" }
         format.json { render :json => @task.errors, :status => :unprocessable_entity }
@@ -105,8 +105,7 @@ class TasksController < ApplicationController
       end
     end     
   end
-
-
+  
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
@@ -127,4 +126,20 @@ class TasksController < ApplicationController
       format.html { redirect_to tasks_url }
     end
   end
+  
+  def generate_sprint_number
+    @task = Task.find(params[:id])
+    sprint_number = Time.now.strftime("%U%Y").to_i
+    estimate = params[:estimate][:estimate_a]
+    person_id = params[:person][:person_id]
+    @task.update_attributes(:sprint_number => sprint_number, :estimate => estimate ,:person_id => person_id)
+
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+    end
+  end
+  
+  def stories
+    @tasks = Task.where('sprint_number IS NULL')
+  end  
 end
