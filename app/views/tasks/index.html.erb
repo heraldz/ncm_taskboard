@@ -33,7 +33,7 @@
 			  <% else %>		
                 <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
 			  <% end %>
-			  <% if task.sprint_number < Task.last.sprint_number %>
+			  <% if task.sprint_number < @tasks.last.sprint_number %>
 			    <b><%= task.sprint_number %></b>
 			  <% end %>		
 				<div style="font-size: 10px;">
@@ -56,7 +56,7 @@
 			  <% else %>		
                 <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
 			  <% end %>
-			  <% if task.sprint_number < Task.last.sprint_number %>
+			  <% if task.sprint_number < @tasks.last.sprint_number %>
 			    <b><%= task.sprint_number %></b>
 			  <% end %>		 
 				<div style="font-size: 10px;">
@@ -80,7 +80,7 @@
 			  <% else %>		
                 <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
 			  <% end %>
-			  <% if task.sprint_number < Task.last.sprint_number %>
+			  <% if task.sprint_number < @tasks.last.sprint_number %>
 			    <b><%= task.sprint_number %></b>
 			  <% end %>		 
 				<div style="font-size: 10px;">  
@@ -105,7 +105,7 @@
 			  <% else %>		
                 <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
 			  <% end %>
-			  <% if task.sprint_number < Task.last.sprint_number %>
+			  <% if task.sprint_number < @tasks.last.sprint_number %>
 			    <b><%= task.sprint_number %></b>
 			  <% end %>		 
 			    <div style="font-size: 10px;">
@@ -131,7 +131,7 @@
 			  <% else %>		
                 <div class="dragme" id="<%=task.id%>" style="background-color: <%= task.owner.color %>">
 			  <% end %>
-			  <% if task.sprint_number < Task.last.sprint_number %>
+			  <% if task.sprint_number < @tasks.last.sprint_number %>
 			    <b><%= task.sprint_number %></b>
 			  <% end %>
 			  <div style="font-size: 10px;">
