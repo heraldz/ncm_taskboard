@@ -10,11 +10,19 @@ class Task < ActiveRecord::Base
   
   
   # Callback methods
-  before_create :generate_sprint_number
+  after_create :check_urgent
   
-  private
+  def check_urgent
+    if self.urgent == true
+      sprint_number = Time.now.strftime("%U%Y").to_i
+      self.update_attributes(:sprint_number => sprint_number)
+    end  
+  end  
   
   def generate_sprint_number
     self[:sprint_number] = Time.now.strftime("%U%Y").to_i
-  end  
+  end
+  
+  private
+    
 end
