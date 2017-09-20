@@ -26,7 +26,7 @@
       <tbody>
 	    <% @tasks.each do |task| %> 	  
           <tr>
-		    <td><%= task.title %></td>
+		    <td><%= link_to task.title, edit_task_path(task) %></td>
 			<td><%= task.description %></td>
 			<td><%= task.project.name %></td>
 			<td><%= task.requestor.name %></td>
