@@ -11,7 +11,11 @@ Taskboard::Application.routes.draw do
   resources :tasks do
     member do
       get 'archived' => :archived
-    end  
+      post 'generate_sprint_number' => :generate_sprint_number
+    end
+    collection do
+      match :stories
+    end    
   end  
     
   root :to => 'tasks#index'
