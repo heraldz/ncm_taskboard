@@ -149,7 +149,6 @@ class TasksController < ApplicationController
     @progresstasks = @tasks.inprogress.order(:updated_at)
     @completedtasks = @tasks.completed.order(:updated_at)
     @testedtasks = @tasks.tested.order(:updated_at)
-    @deployedtasks = @tasks.deployed.order(:updated_at)
     if Task.last.nil?
       @current_sprint = Time.now.strftime("%U%Y").to_i
     else  
@@ -160,6 +159,10 @@ class TasksController < ApplicationController
       format.html # index.html.erb
       format.json { render :json => @tasks }
     end
+  end
+  
+  def deployed
+    @deployedtasks = Task.active.deployed.order(:updated_at)
   end
   
   def archived
