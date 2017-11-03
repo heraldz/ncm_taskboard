@@ -1,0 +1,161 @@
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+<script src="jquery.ui.touch-punch.min.js"></script>
+
+<%= image_tag("ncm_logo.jpg", :style => "width: 44px; margin-top: 10px;") %>
+<div style="position: absolute; margin-top: -70px; margin-left: 107px;"><h2>NCM Manila</h2></div>
+<div style="position: absolute; margin-top: -28px; margin-left: 109px;"><h4>Web Developers</h4></div>
+<div style="position: absolute; margin-top: -48px; margin-left: 50px;">
+<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple117/v4/a6/d2/2c/a6d22ca4-5b4d-a1de-03ac-6a67a81b07fe/source/512x512bb.jpg" style="width:51px;height:51px;">
+</div>
+<br/><br/>
+<h2>&nbsp;Listing Ongoing Tasks</h2>
+<br/>
+
+<h4>&nbsp;&nbsp;Stories</h4>
+</blockquote>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th width=20%>Title</th>
+		<th width=40%>Description</th>
+		<th width=7%>Project</th>
+		<th width=7%>Requested By</th>
+		<th width=7%>Owner</th>
+		<th width=12%>Added at</th>
+		<th width=7%>Edit</th>
+	  </tr>  
+      <tbody>
+	    <% @readytasks.each do |task| %> 	  
+          <tr>
+		    <td><%= link_to task.title, task_path(task) %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name unless task.project.nil? %></td>
+			<td><%= task.requestor.name unless task.requestor.nil?  %></td>
+			<td><%= task.owner.name unless task.owner.nil?  %></td>
+			<td><%= task.updated_at.strftime("%d %B, %I:%M%p,%a") %></td>
+			<td><%= link_to "Edit", edit_task_path(task) %></td>		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>
+<h5>&nbsp;&nbsp;Work In Progress</h5>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th width=20%>Title</th>
+		<th width=40%>Description</th>
+		<th width=7%>Project</th>
+		<th width=7%>Requested By</th>
+		<th width=7%>Owner</th>
+		<th width=12%>Started at</th>
+		<th width=7%>Edit</th>
+	  </tr>  
+      <tbody>
+	    <% @progresstasks.each do |task| %> 	  
+          <tr>
+		    <td><%= link_to task.title, task_path(task) %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name unless task.project.nil? %></td>
+			<td><%= task.requestor.name unless task.requestor.nil?  %></td>
+			<td><%= task.owner.name unless task.owner.nil?  %></td>
+			<td><%= task.wip_started_date.strftime("%d %B, %I:%M%p,%a") %></td>
+			<td><%= link_to "Edit", edit_task_path(task) %></td>		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>
+<h5>&nbsp;&nbsp;Completed</h5>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th width=20%>Title</th>
+		<th width=40%>Description</th>
+		<th width=7%>Project</th>
+		<th width=7%>Requested By</th>
+		<th width=7%>Owner</th>
+		<th width=12%>Created at</th>
+		<th width=7%>Edit</th>
+	  </tr>  
+      <tbody>
+	    <% @completedtasks.each do |task| %> 	  
+          <tr>
+		    <td><%= link_to task.title, task_path(task) %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name unless task.project.nil? %></td>
+			<td><%= task.requestor.name unless task.requestor.nil?  %></td>
+			<td><%= task.owner.name unless task.owner.nil?  %></td>
+			<td><%= task.completed_at.strftime("%d %B, %I:%M%p,%a") %></td>
+			<td><%= link_to "Edit", edit_task_path(task) %></td>		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>
+<h5>&nbsp;&nbsp;Pushed/Tested</h5>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th width=20%>Title</th>
+		<th width=40%>Description</th>
+		<th width=7%>Project</th>
+		<th width=7%>Requested By</th>
+		<th width=7%>Owner</th>
+		<th width=12%>Tested at</th>
+		<th width=7%>Edit</th>
+	  </tr>  
+      <tbody>
+	    <% @testedtasks.each do |task| %> 	  
+          <tr>
+		    <td><%= link_to task.title, task_path(task) %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name unless task.project.nil? %></td>
+			<td><%= task.requestor.name unless task.requestor.nil?  %></td>
+			<td><%= task.owner.name unless task.owner.nil?  %></td>
+			<td><%= task.tested_at.strftime("%d %B, %I:%M%p,%a") %></td>
+			<td><%= link_to "Edit", edit_task_path(task) %></td>		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>
+<h5>&nbsp;&nbsp;Deployed</h5>
+<div id="divTasks" style="margin-left: 20px; margin-right: 20px;">
+  <div class="center">
+	<table class="table table-striped table-hover ">  
+	  <tr class="warning">
+	    <th width=20%>Title</th>
+		<th width=40%>Description</th>
+		<th width=7%>Project</th>
+		<th width=7%>Requested By</th>
+		<th width=7%>Owner</th>
+		<th width=12%>Deployed at</th>
+		<th width=7%>Archive</th>
+	  </tr>  
+      <tbody>
+	    <% @deployedtasks.each do |task| %> 	  
+          <tr>
+		    <td><%= link_to task.title, task_path(task) %></td>
+			<td><%= task.description %></td>
+			<td><%= task.project.name unless task.project.nil? %></td>
+			<td><%= task.requestor.name unless task.requestor.nil?  %></td>
+			<td><%= task.owner.name unless task.owner.nil?  %></td>
+			<td><%= task.deployed_at.strftime("%d %B, %I:%M%p,%a") %></td>
+			<td><%= link_to "Archive", archived_task_path(task) %></td>		
+          </tr>
+		<% end %>  
+      </tbody>
+    </table>
+  </div>
+</div>

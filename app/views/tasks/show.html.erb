@@ -18,17 +18,17 @@
 
 <p>
 	<b>Task Owner:</b>
-	<%= @task.owner.name %>
+	<%= @task.owner.name unless @task.owner.nil? %>
 </p>
 
 <p>
 	<b>Requested By:</b>
-	<%= @task.requestor.name %>
+	<%= @task.requestor.name unless @task.requestor.nil? %>
 </p>
 
 <p>
 	<b>Application:</b>
-	<%= @task.project.name %>
+	<%= @task.project.name unless @task.project.nil? %>
 </p>
 
 <p>
