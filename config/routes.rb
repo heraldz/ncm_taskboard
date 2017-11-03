@@ -15,6 +15,8 @@ Taskboard::Application.routes.draw do
     end
     collection do
       match :stories
+      match :ongoing
+      match :archived
     end    
   end  
     
