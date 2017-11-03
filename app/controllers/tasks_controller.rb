@@ -166,6 +166,6 @@ class TasksController < ApplicationController
   end
   
   def archived
-    @tasks = Task.archived
+    @tasks = Task.archived.order('updated_at desc')
   end        
 end
