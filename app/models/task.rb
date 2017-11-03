@@ -5,9 +5,15 @@ class Task < ActiveRecord::Base
   belongs_to :requestor, :class_name => "ProductOwner", :foreign_key => :requested_by
 
   # Named scopes
+  scope :active, where('sprint_number IS NOT NULL')
   scope :archived, where(:archived => true)
-  scope :current, where('archived = FALSE OR archived IS NULL')
-  
+  scope :current, where('archived = 0 OR archived IS NULL')
+  scope :future, where('sprint_number = 0 OR sprint_number IS NULL')
+  scope :ready, where(:status => 1).where('archived = 0 OR archived IS NULL').current
+  scope :inprogress, where(:status => 2).where('archived = 0 OR archived IS NULL').order(:updated_at).current
+  scope :completed, where(:status => 3).where('archived = 0 OR archived IS NULL').order(:updated_at).current
+  scope :tested, where(:status => 4).where('archived = 0 OR archived IS NULL').order(:updated_at).current
+  scope :deployed, where(:status => 5).where('archived = 0 OR archived IS NULL').order(:updated_at).current
   
   # Callback methods
   after_create :check_urgent
