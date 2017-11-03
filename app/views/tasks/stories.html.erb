@@ -34,7 +34,7 @@
 			  <% hours = task.estimate.blank? ? '0' : task.estimate %>
 			  <td><%= text_field 'estimate', 'estimate_a', :size => 5, :value => hours %></td>
 			  <td><%= select('person','person_id',User.all.collect{|c| [c.name, c.id] }, :selected => task.person_id) %></td>
-			  <td><%= submit_tag "Go" %></td>
+			  <td><%= submit_tag "Start" %></td>
 			<% end %>  		
           </tr>
 		<% end %>  
