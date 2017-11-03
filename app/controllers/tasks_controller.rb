@@ -2,12 +2,12 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.where('sprint_number IS NOT NULL')
-    @readytasks = @tasks.where(:status => 1).where('archived = 0 OR archived IS NULL')
-    @progresstasks = @tasks.where(:status => 2).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @completedtasks = @tasks.where(:status => 3).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @testedtasks = @tasks.where(:status => 4).where('archived = 0 OR archived IS NULL').order(:updated_at)
-    @deployedtasks = @tasks.where(:status => 5).where('archived = 0 OR archived IS NULL').order(:updated_at)
+    @tasks = Task.active
+    @readytasks = @tasks.ready
+    @progresstasks = @tasks.inprogress.order(:updated_at)
+    @completedtasks = @tasks.completed.order(:updated_at)
+    @testedtasks = @tasks.tested.order(:updated_at)
+    @deployedtasks = @tasks.deployed.order(:updated_at)
     if Task.last.nil?
       @current_sprint = Time.now.strftime("%U%Y").to_i
     else  
@@ -140,6 +140,29 @@ class TasksController < ApplicationController
   end
   
   def stories
-    @tasks = Task.where('sprint_number IS NULL')
-  end  
+    @tasks = Task.future
+  end
+  
+  def ongoing
+    @tasks = Task.active
+    @readytasks = @tasks.ready
+    @progresstasks = @tasks.inprogress.order(:updated_at)
+    @completedtasks = @tasks.completed.order(:updated_at)
+    @testedtasks = @tasks.tested.order(:updated_at)
+    @deployedtasks = @tasks.deployed.order(:updated_at)
+    if Task.last.nil?
+      @current_sprint = Time.now.strftime("%U%Y").to_i
+    else  
+      @current_sprint = @tasks.last.sprint_number
+    end  
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @tasks }
+    end
+  end
+  
+  def archived
+    @tasks = Task.archived
+  end        
 end
