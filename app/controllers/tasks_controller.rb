@@ -118,7 +118,7 @@ class TasksController < ApplicationController
     end
   end
   
-  def archived
+  def set_archived
     @task = Task.find(params[:id])
     @task.update_attributes(:archived => true)
 
