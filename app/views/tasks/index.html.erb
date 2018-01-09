@@ -147,7 +147,7 @@
 			    <br/>		  
                 <%= task.project.name %> - <%= task.title %>
 				<br/><br/>
-				<%= link_to "Archive", archived_task_path(task) %>
+				<%= link_to "Archive", set_archived_task_path(task) %>
               </div>
             <%end%>
           </td>
