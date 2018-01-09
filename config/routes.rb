@@ -10,7 +10,7 @@ Taskboard::Application.routes.draw do
 
   resources :tasks do
     member do
-      get 'archived' => :archived
+      get 'set_archived' => :set_archived
       post 'generate_sprint_number' => :generate_sprint_number
     end
     collection do
